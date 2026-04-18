@@ -26,24 +26,55 @@ const featured = [
   },
 ];
 
-const secondary = [
+const otherProjects = [
+  {
+    title: "Shri Gajanan Maharaj Mandir",
+    desc: "Community temple site for events, teachings, and donation flows with bilingual content and SEO-focused structure so visitors can discover schedules and support the mandir online.",
+    link: "https://shrigajananmaharajmandirsangvipune.com/",
+    tags: ["WordPress", "Payments", "Bilingual", "SEO", "Donations"],
+  },
   {
     title: "DigiSkillsPro",
-    desc: "Franchise and student management platform with payments and application workflows.",
+    desc: "End-to-end franchise and student operations: applications, documents, cohorts, and payment workflows so institutions and franchise partners stay aligned in one system.",
+    link: "https://www.digiskillspro.com/",
+    tags: ["WordPress", "Franchise", "Students", "Payments", "Documents"],
   },
   {
-    title: "Coworking Platforms",
-    desc: "Workspace booking and management systems with WordPress integrations.",
+    title: "My Cute Office",
+    desc: "Multi-location coworking portal for listing spaces, amenities, and bookings so teams can compare offices and reserve the right fit without juggling spreadsheets.",
+    link: "https://mycuteoffice.com/",
+    tags: ["WordPress", "Coworking", "Reservations", "Amenities"],
   },
-];
-
-const wordpress = [
-  "shrigajananmaharajmandirsangvipune.com",
-  "mycuteoffice.com",
-  "ascendcowork.com",
-  "ameetdubey.com",
-  "pro-procurement.com",
-  "fran-tech.com",
+  {
+    title: "Ascend Cowork",
+    desc: "Marketing site for a coworking brand—services, space types, amenities, and gallery—with clear paths to book a tour or get in touch.",
+    link: "https://ascendcowork.com/",
+    tags: ["WordPress", "Coworking", "Gallery", "Lead gen"],
+  },
+  {
+    title: "Future Building Infrastructure",
+    desc: "Next.js marketing site explaining MIDC industrial plot services, step-by-step process, and contact—fast, structured content for a technical audience.",
+    link: "https://futurebuildinfra.in/",
+    tags: ["Next.js", "TypeScript", "Tailwind", "Services"],
+  },
+  {
+    title: "Ameet Dubey",
+    desc: "Personal portfolio highlighting services, selected work, and credibility signals for consulting and delivery engagements.",
+    link: "https://ameetdubey.com/",
+    tags: ["WordPress", "Portfolio", "SEO"],
+  },
+  {
+    title: "Pro Procurement",
+    desc: "Corporate site for procurement services and product lines, with service breakdowns, visuals, and contact for enterprise buyers.",
+    link: "https://pro-procurement.com/",
+    tags: ["WordPress", "B2B", "Services", "Products"],
+  },
+  {
+    title: "Fran Tech",
+    desc: "Franchise technology positioning: solutions, differentiators, and inquiry flows for operators evaluating franchise systems.",
+    link: "https://fran-tech.com/",
+    tags: ["WordPress", "Franchise", "B2B", "Lead gen"],
+  },
 ];
 
 export default function Work() {
@@ -124,33 +155,45 @@ bg-gradient-to-br from-yellow-500/10 to-orange-500/10">
         ))}
       </div>
 
-      {/* ⚙️ Secondary */}
-      <div className="mt-24 grid md:grid-cols-2 gap-8">
-        {secondary.map((item, i) => (
-          <div
-            key={i}
-            className="p-8 rounded-2xl border border-white/10 bg-white/5"
-          >
-            <h3 className="text-xl font-semibold">{item.title}</h3>
-            <p className="mt-3 text-gray-400">{item.desc}</p>
-          </div>
-        ))}
-      </div>
+      {/* Other projects */}
+      <div className="mt-24">
+        <div className="mb-10 max-w-2xl">
+          <h3 className="text-3xl font-bold">Other projects</h3>
+          <p className="mt-2 text-gray-400">
+            Client and marketing sites—clear structure, credible content, and paths to contact or convert.
+          </p>
+        </div>
 
-      {/* 🧱 WordPress Grid */}
-      <div className="mt-20">
-        <h3 className="text-2xl mb-6">Other Projects</h3>
-
-        <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-400">
-          {wordpress.map((site, i) => (
-            <a
-              key={i}
-              href={`https://${site}`}
+        <div className="grid gap-6 md:grid-cols-2">
+          {otherProjects.map((project) => (
+            <motion.a
+              key={project.title}
+              href={project.link}
               target="_blank"
-              className="hover:text-white transition"
+              rel="noopener noreferrer"
+              whileHover={{ y: -4 }}
+              className="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-white/20 hover:bg-white/[0.06]"
             >
-              {site}
-            </a>
+              <h4 className="text-xl font-semibold text-white">
+                {project.title}
+              </h4>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-gray-400">
+                {project.desc}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span
+                    key={`${project.title}-${tag}`}
+                    className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-xs text-gray-300"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <span className="mt-5 text-sm font-medium text-white/80 transition-colors group-hover:text-white">
+                Visit site →
+              </span>
+            </motion.a>
           ))}
         </div>
       </div>
