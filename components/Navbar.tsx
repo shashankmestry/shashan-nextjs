@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -12,17 +12,52 @@ const navLinks = [
 
 const SELECTED_WORK_HASH = "#selected-work";
 
-function useHashSync(pathname: string | null) {
-  const [hash, setHash] = useState("");
+/**
+ * Next.js `<Link>` updates the URL with `history.pushState` for same-route navigations.
+ * That path often does not emit `hashchange`, so we subscribe to push/replace/pop as well.
+ */
+function subscribeToLocationHash(callback: () => void) {
+  const notify = () => queueMicrotask(callback);
 
-  useEffect(() => {
-    const sync = () => setHash(typeof window !== "undefined" ? window.location.hash : "");
-    sync();
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
-  }, [pathname]);
+  window.addEventListener("hashchange", notify);
+  window.addEventListener("popstate", notify);
 
-  return hash;
+  const push = history.pushState.bind(history);
+  const replace = history.replaceState.bind(history);
+
+  history.pushState = (...args: Parameters<typeof push>) => {
+    const result = push(...args);
+    notify();
+    return result;
+  };
+  history.replaceState = (...args: Parameters<typeof replace>) => {
+    const result = replace(...args);
+    notify();
+    return result;
+  };
+
+  return () => {
+    window.removeEventListener("hashchange", notify);
+    window.removeEventListener("popstate", notify);
+    history.pushState = push;
+    history.replaceState = replace;
+  };
+}
+
+function getLocationHashSnapshot() {
+  return window.location.hash;
+}
+
+function getServerLocationHashSnapshot() {
+  return "";
+}
+
+function useLocationHash() {
+  return useSyncExternalStore(
+    subscribeToLocationHash,
+    getLocationHashSnapshot,
+    getServerLocationHashSnapshot
+  );
 }
 
 function isNavLinkActive(
@@ -47,7 +82,7 @@ function isNavLinkActive(
 
 export default function Navbar() {
   const pathname = usePathname();
-  const hash = useHashSync(pathname);
+  const hash = useLocationHash();
   const [isOpen, setIsOpen] = useState(false);
 
   return (

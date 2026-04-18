@@ -107,7 +107,7 @@ export default function RootLayout({
         <SmoothScroll />
         <div className="relative flex min-h-screen flex-col">
           <Navbar />
-          <div className="flex-1">{children}</div>
+          <div className="flex-1 mt-6 sm:mt-0">{children}</div>
           <Footer />
         </div>
       </body>
