@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import DeferredGoogleAnalytics from "@/components/DeferredGoogleAnalytics";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -115,7 +115,7 @@ export default function RootLayout({
           <Footer />
         </div>
         {gaMeasurementId ? (
-          <GoogleAnalytics gaId={gaMeasurementId} />
+          <DeferredGoogleAnalytics gaId={gaMeasurementId} />
         ) : null}
       </body>
     </html>

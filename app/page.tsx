@@ -1,8 +1,10 @@
+import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
-import Work from "@/components/Work";
-import Story from "@/components/Story";
-import CTA from "@/components/CTA";
+
+const Services = dynamic(() => import("@/components/Services"));
+const Work = dynamic(() => import("@/components/Work"));
+const Story = dynamic(() => import("@/components/Story"));
+const CTA = dynamic(() => import("@/components/CTA"));
 
 export default function Home() {
   return (
